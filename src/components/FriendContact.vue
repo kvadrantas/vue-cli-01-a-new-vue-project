@@ -1,6 +1,6 @@
 <template>
     <li>
-        <h2>{{name}} {{favorite ? '(Favorite)' : ''}}</h2>
+        <h2>{{name}} {{isFavorite ? '(Favorite)' : ''}}</h2>
         <button @click="toggleDetails">Show Details</button>
         <button @click="toggleFavorite">Is Favorite?</button>
         <ul v-if="showDetails">
@@ -13,15 +13,18 @@
 <script>
 export default {
     props: [
+        'id',
         'name',
         'phone',
         'email',
         'isFavorite'
     ],
+    emits: [
+        'toggle-favorite'
+    ],
     data() {
         return {
             showDetails: false,
-            favorite: this.isFavorite
         }
     },
     methods: {
@@ -29,7 +32,7 @@ export default {
             this.showDetails = !this.showDetails;
         },
         toggleFavorite() {
-            this.favorite = !this.favorite;
+            this.$emit('toggle-favorite', this.id);
         }
     },
 }
